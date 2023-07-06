@@ -23,13 +23,13 @@ const tooltipContainerStyles: CSSProperties = {
 
 type Props = {
     href: string;
-    attributes: {[attribute: string]: string};
+    attributes: { [attribute: string]: string | boolean };
     children?: React.ReactNode;
-}
+};
 
 type State = {
     show: boolean;
-}
+};
 
 export default class LinkTooltip extends React.PureComponent<Props, State> {
     private tooltipContainerRef: RefObject<HTMLDivElement>;
@@ -68,12 +68,17 @@ export default class LinkTooltip extends React.PureComponent<Props, State> {
                 }
 
                 const addChildEventListeners = (node: Node) => {
-                    node.addEventListener('mouseover', () => clearTimeout(this.hideTimeout));
-                    (node as HTMLElement).addEventListener('mouseleave', (event) => {
-                        if (event.relatedTarget !== null) {
-                            this.hideTooltip();
-                        }
-                    });
+                    node.addEventListener('mouseover', () =>
+                        clearTimeout(this.hideTimeout),
+                    );
+                    (node as HTMLElement).addEventListener(
+                        'mouseleave',
+                        (event) => {
+                            if (event.relatedTarget !== null) {
+                                this.hideTooltip();
+                            }
+                        },
+                    );
                 };
                 tooltipContainer.childNodes.forEach(addChildEventListeners);
 
@@ -114,7 +119,9 @@ export default class LinkTooltip extends React.PureComponent<Props, State> {
                     <div
                         style={tooltipContainerStyles}
                         ref={this.tooltipContainerRef}
-                        className={classNames('tooltip-container', {visible: this.state.show})}
+                        className={classNames('tooltip-container', {
+                            visible: this.state.show,
+                        })}
                     >
                         <Pluggable
                             href={href}

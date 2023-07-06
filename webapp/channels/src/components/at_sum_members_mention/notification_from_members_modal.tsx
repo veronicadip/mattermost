@@ -10,7 +10,10 @@ import styled from 'styled-components';
 
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 
-import {getUsers, getUserStatuses} from 'mattermost-redux/selectors/entities/users';
+import {
+    getUsers,
+    getUserStatuses,
+} from 'mattermost-redux/selectors/entities/users';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
@@ -36,7 +39,7 @@ import './notification_from_members_modal.scss';
 type Props = {
     feature: string;
     userIds: string[];
-}
+};
 
 export interface ChannelMember {
     user: UserProfile;
@@ -59,7 +62,10 @@ const MembersContainer = styled.div`
     overflow: auto;
 `;
 
-const unknownUser: UserProfile = {id: 'unknown', username: 'unknown'} as UserProfile;
+const unknownUser: UserProfile = {
+    id: 'unknown',
+    username: 'unknown',
+} as UserProfile;
 
 function NotificationFromMembersModal(props: Props) {
     const dispatch = useDispatch();
@@ -75,7 +81,9 @@ function NotificationFromMembersModal(props: Props) {
     const userProfiles = useSelector(getUsers);
     const userStatuses = useSelector(getUserStatuses);
     const displaySetting = useSelector(getTeammateNameDisplaySetting);
-    const show = useSelector((state: GlobalState) => isModalOpen(state, ModalIdentifiers.SUM_OF_MEMBERS_MODAL));
+    const show = useSelector((state: GlobalState) =>
+        isModalOpen(state, ModalIdentifiers.SUM_OF_MEMBERS_MODAL),
+    );
 
     const members: ListItem[] = props.userIds.map((userId: string) => {
         const user = userProfiles[userId];
@@ -109,11 +117,19 @@ function NotificationFromMembersModal(props: Props) {
         return null;
     }
 
-    const modalTitle = formatMessage({id: 'postypes.custom_open_pricing_modal_post_renderer.membersThatRequested', defaultMessage: 'Members that requested '});
+    const modalTitle = formatMessage({
+        id: 'postypes.custom_open_pricing_modal_post_renderer.membersThatRequested',
+        defaultMessage: 'Members that requested ',
+    });
 
-    const modalHeaderText = (<h1 id='invitation_modal_title'>
-        {`${modalTitle}${mapFeatureIdToTranslation(props.feature, formatMessage)}`}
-    </h1>);
+    const modalHeaderText = (
+        <h1 id='invitation_modal_title'>
+            {`${modalTitle}${mapFeatureIdToTranslation(
+                props.feature,
+                formatMessage,
+            )}`}
+        </h1>
+    );
 
     return (
         <GenericModal
