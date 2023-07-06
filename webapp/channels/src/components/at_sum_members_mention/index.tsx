@@ -14,20 +14,22 @@ type Props = {
     text: string;
     userIds: string[];
     messageMetadata: Record<string, string>;
-}
+};
 
 function AtSumOfMembersMention(props: Props) {
     const dispatch = useDispatch();
     const handleOpen = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
         e.preventDefault();
-        dispatch(openModal({
-            modalId: ModalIdentifiers.SUM_OF_MEMBERS_MODAL,
-            dialogType: NotificationFromMembersModal,
-            dialogProps: {
-                userIds: props.userIds,
-                feature: props.messageMetadata.requestedFeature,
-            },
-        }));
+        dispatch(
+            openModal({
+                modalId: ModalIdentifiers.SUM_OF_MEMBERS_MODAL,
+                dialogType: NotificationFromMembersModal,
+                dialogProps: {
+                    userIds: props.userIds,
+                    feature: props.messageMetadata.requestedFeature,
+                },
+            }),
+        );
     };
 
     return (
@@ -39,7 +41,6 @@ function AtSumOfMembersMention(props: Props) {
                 {props.text}
             </a>
         </>
-
     );
 }
 
